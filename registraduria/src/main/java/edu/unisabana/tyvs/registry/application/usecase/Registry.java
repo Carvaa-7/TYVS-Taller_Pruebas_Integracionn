@@ -32,6 +32,8 @@ public class Registry {
             return RegisterResult.INVALID;
         if (p.getId() <= 0)
             return RegisterResult.INVALID;
+        if (p.getName() == null || p.getName().isBlank())
+            return RegisterResult.INVALID;
         if (!p.isAlive())
             return RegisterResult.DEAD;
         // El orden importa: una edad imposible se descarta ANTES de preguntar

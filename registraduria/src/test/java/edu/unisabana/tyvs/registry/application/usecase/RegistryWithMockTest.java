@@ -219,4 +219,18 @@ public class RegistryWithMockTest {
         assertEquals(RegisterResult.VALID, registry.registerVoter(p));
         verify(repo).save(15, "Centenaria", Registry.MAX_AGE, true);
     }
+
+    /**
+     * DEFECTO propio: un nombre vacio o en blanco no es un votante valido,
+     * es un dato mal capturado (igual que la edad -1). Antes de corregir
+     * Registry, esta prueba falla: el codigo actual no valida el nombre y
+     * llega hasta guardar en el repositorio.
+     */
+    @Test
+    public void shouldReturnInvalidWhenNameIsBlank() {
+        Person p = new Person("   ", 16, 25, Gender.MALE, true);
+
+        assertEquals(RegisterResult.INVALID, registry.registerVoter(p));
+        verifyNoInteractions(repo);
+    }
 }
