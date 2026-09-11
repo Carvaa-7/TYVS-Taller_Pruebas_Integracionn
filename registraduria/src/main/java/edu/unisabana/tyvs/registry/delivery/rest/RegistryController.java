@@ -1,4 +1,3 @@
-// src/main/java/edu/unisabana/tyvs/registry/delivery/rest/RegistryController.java
 package edu.unisabana.tyvs.registry.delivery.rest;
 
 import edu.unisabana.tyvs.registry.application.usecase.Registry;
@@ -24,7 +23,7 @@ public class RegistryController {
     public String register(@RequestBody PersonDTO dto) {
         Person p = new Person(dto.getName(), dto.getId(), dto.getAge(),
                 Gender.valueOf(dto.getGender()), dto.isAlive());
-        RegisterResult r = registry.registerVoter(p);   
+        RegisterResult r = registry.registerVoter(p);
         return r.name();
     }
 }
