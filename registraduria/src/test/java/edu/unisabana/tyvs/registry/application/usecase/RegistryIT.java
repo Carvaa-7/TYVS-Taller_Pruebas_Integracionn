@@ -75,4 +75,30 @@ public class RegistryIT {
         // Assert: la unicidad la garantiza la base de datos, no el mock
         assertEquals(RegisterResult.DUPLICATED, result2);
     }
+
+    @Test
+    public void shouldFindPersistedVoterById() throws Exception {
+        // Arrange
+        Person p1 = new Person("Carlos", 200, 45, Gender.MALE, true);
+        registry.registerVoter(p1);
+
+        // Act: round-trip real contra H2, ejercita findById() y RegistryRecord
+        var found = repo.findById(200);
+
+        // Assert
+        assertTrue(found.isPresent());
+        assertEquals(200, found.get().getId());
+        assertEquals("Carlos", found.get().getName());
+        assertEquals(45, found.get().getAge());
+        assertTrue(found.get().isAlive());
+    }
+
+    @Test
+    public void shouldReturnEmptyWhenVoterDoesNotExist() throws Exception {
+        // Act: ningun id 999 fue registrado en esta prueba
+        var found = repo.findById(999);
+
+        // Assert
+        assertTrue(found.isEmpty());
+    }
 }
